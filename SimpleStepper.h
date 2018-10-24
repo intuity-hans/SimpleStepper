@@ -11,19 +11,17 @@
 #include <Arduino.h>
 #include "Pin.h"
 
-/*
- * Simple Stepper class.
- */
 class SimpleStepper {
 public:
     volatile long ticksRemaining[3];   // remaining ticks, 2 ticks = 1 pulse = 1 microstep/step
-
+    volatile unsigned long totalTicks;
 protected:
     /* for some stupid reason the Pin class requires initialization */ 
     Pin dirPins[3] = {Pin(1000),Pin(1001),Pin(1002)};
     Pin stepPins[3] = {Pin(1003),Pin(1004),Pin(1005)};
     bool paused;
     volatile bool isRunning[3];
+    uint8_t divider[3] {1,1,1};
     
 public:
     SimpleStepper(uint8_t dirpin0, uint8_t steppin0, uint8_t dirpin1, uint8_t steppin1, uint8_t dirpin2, uint8_t steppin2);
@@ -44,5 +42,6 @@ public:
     
 private:
     static SimpleStepper *firstInstance;
+    bool doStep(uint8_t identifier);
 };
 #endif // SIMPLE_STEPPER_BASE_H
