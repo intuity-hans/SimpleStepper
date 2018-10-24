@@ -16,26 +16,29 @@
  */
 class SimpleStepper {
 public:
-    volatile long ticksRemaining;   // remaining ticks, 2 ticks = 1 pulse = 1 microstep/step
+    volatile long ticksRemaining[3];   // remaining ticks, 2 ticks = 1 pulse = 1 microstep/step
 
 protected:
     /* for some stupid reason the Pin class requires initialization */ 
-    Pin dirPin = Pin(1000);
-    Pin stepPin = dirPin;
+    Pin dirPins[3] = {Pin(1000),Pin(1001),Pin(1002)};
+    Pin stepPins[3] = {Pin(1003),Pin(1004),Pin(1005)};
     bool paused;
+    volatile bool isRunning[3];
     
 public:
-    SimpleStepper(uint8_t dirpin, uint8_t steppin);
+    SimpleStepper(uint8_t dirpin0, uint8_t steppin0, uint8_t dirpin1, uint8_t steppin1, uint8_t dirpin2, uint8_t steppin2);
     void init();
     void setPulse(long pulse);
-    bool step(long steps, uint8_t direction);
-    bool step(long steps, uint8_t direction, long pulse);
-    long getRemainingSteps();
-    long stop();
+    bool step(uint8_t identifier, long steps, uint8_t direction);
+    bool step(uint8_t identifier, long steps, uint8_t direction, long pulse);
+    long getRemainingSteps(uint8_t identifier);
+    void stop();
     void pause();
     void resume();
-    bool isStepping();
-    bool isStopped();
+
+    bool isStepping(uint8_t identifier);
+    bool isStopped(uint8_t identifier);
+    
     bool isPaused();
     static void ticking();
     
