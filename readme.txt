@@ -9,3 +9,12 @@
   To install this library, just place this entire folder as a subfolder in your
 Arduino/lib/targets/libraries folder.
 
+**Update / What I'm working on**
+--------------------------------------------------------------------------------
+  The goal is to extend the library to support multiple steppers running in parallel for simple automation tasks.
+  Current State:
+  + multiple Steppers running well
+
+  goals:
+  -> implement different speed settings/stages (low / mid / high) than individual speeds
+  -> crude acceleration and deceleration
